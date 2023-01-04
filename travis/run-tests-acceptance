@@ -12,7 +12,6 @@ TEST_ARGS=$@
 TEST_ARGS_DEF="-covermode=count -coverprofile=profile.cov -timeout=1200s"
 
 unset http_proxy
-export TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu
 if test -z "${LIBVIRT_DEFAULT_URI}"; then
     LIBVIRT_DEFAULT_URI="qemu:///system"
 fi

@@ -31,6 +31,7 @@ func TestAccLibvirtDomain_Basic(t *testing.T) {
 				Config: fmt.Sprintf(`
 				resource "libvirt_domain" "%s" {
 					name = "%s"
+					type = "qemu"
 				}`, randomResourceName, randomDomainName),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckLibvirtDomainExists("libvirt_domain."+randomResourceName, &domain),
@@ -59,6 +60,7 @@ func TestAccLibvirtDomain_Description(t *testing.T) {
 				Config: fmt.Sprintf(`
 				resource "libvirt_domain" "%s" {
 					name = "%s"
+					type = "qemu"
                     description = "unit test description"
 				}`, randomResourceName, randomDomainName),
 				Check: resource.ComposeTestCheckFunc(
@@ -86,6 +88,7 @@ func TestAccLibvirtDomain_Detailed(t *testing.T) {
 				Config: fmt.Sprintf(`
 				resource "libvirt_domain" "%s" {
 					name   = "%s"
+					type   = "qemu"
 					memory = 384
 					vcpu   = 2
 				}`, randomResourceName, randomDomainName),
@@ -124,6 +127,7 @@ func TestAccLibvirtDomain_Volume(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			volume_id = "${libvirt_volume.%s.id}"
 		}
@@ -132,6 +136,7 @@ func TestAccLibvirtDomain_Volume(t *testing.T) {
 	var configVolDettached = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 	}`, randomDomainName, randomDomainName)
 
 	resource.Test(t, resource.TestCase{
@@ -187,6 +192,7 @@ func TestAccLibvirtDomain_VolumeTwoDisks(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			volume_id = "${libvirt_volume.%s.id}"
 		}
@@ -199,6 +205,7 @@ func TestAccLibvirtDomain_VolumeTwoDisks(t *testing.T) {
 	var configVolDettached = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 	}`, randomDomainName, randomDomainName)
 
 	resource.Test(t, resource.TestCase{
@@ -258,6 +265,7 @@ func TestAccLibvirtDomain_VolumeDriver(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			volume_id = "${libvirt_volume.%s.id}"
 		}
@@ -313,6 +321,7 @@ func TestAccLibvirtDomain_ScsiDisk(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			volume_id = "${libvirt_volume.%s.id}"
 			scsi      = "true"
@@ -366,7 +375,7 @@ func TestAccLibvirtDomain_BlockDevice(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
-
+		type = "qemu"
 		disk {
 			block_device = "%s"
 		}
@@ -414,6 +423,7 @@ func TestAccLibvirtDomain_URLDisk(t *testing.T) {
 	var configURL = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			url = "%s"
 		}
@@ -450,6 +460,7 @@ func TestAccLibvirtDomain_MultiISODisks(t *testing.T) {
 	var configFourDisks = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		disk {
 			file = "%s"
 		}
@@ -478,7 +489,8 @@ func TestAccLibvirtDomain_MultiISODisks(t *testing.T) {
 	}
 
 	resource "libvirt_domain" "%s" {
-		name = "%s"
+		name      = "%s"
+		type      = "qemu"
 		cloudinit = "${libvirt_cloudinit_disk.%s.id}"
 		disk {
 			file = "%s"
@@ -546,6 +558,7 @@ func TestAccLibvirtDomain_KernelInitrdCmdline(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name   = "terraform-test-domain"
+		type   = "qemu"
 		kernel = "${libvirt_volume.kernel.id}"
 		initrd = "${libvirt_volume.initrd.id}"
 
@@ -599,6 +612,7 @@ func TestAccLibvirtDomain_NetworkInterface(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name              = "%s"
+		type              = "qemu"
 		network_interface  {
 			network_name = "${libvirt_network.%s.name}"
 			hostname       = "myhost"
@@ -662,6 +676,7 @@ func TestAccLibvirtDomain_CheckDHCPEntries(t *testing.T) {
 
             resource "libvirt_domain" "%s" {
                     name = "%s"
+                    type = "qemu"
                     network_interface {
                             network_id = "${libvirt_network.%s.id}"
                             hostname = "terraform-test"
@@ -731,6 +746,7 @@ func TestAccLibvirtDomain_Graphics(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		graphics {
 			type        = "spice"
 			autoport    = "true"
@@ -752,6 +768,7 @@ func TestAccLibvirtDomain_Graphics(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		graphics {
 			type        = "spice"
 			autoport    = "true"
@@ -836,6 +853,7 @@ func TestAccLibvirtDomain_IgnitionObject(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name            = "terraform-test-domain"
+		type            = "qemu"
 		coreos_ignition = "${libvirt_ignition.%s.id}"
 	}
 	`, randomPoolName, randomPoolName, randomPoolPath, randomIgnitionName, randomPoolName, randomDomainName, randomIgnitionName)
@@ -864,6 +882,7 @@ func TestAccLibvirtDomain_Cpu(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		cpu  {
 			mode = "custom"
 		}
@@ -893,6 +912,7 @@ func TestAccLibvirtDomain_Video(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		video {
 			type = "vga"
 		}
@@ -921,12 +941,14 @@ func TestAccLibvirtDomain_Autostart(t *testing.T) {
 	var autostartTrue = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name      = "%s"
+		type      = "qemu"
 		autostart = true
 	}`, randomDomainName, randomDomainName)
 
 	var autostartFalse = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name      = "%s"
+		type      = "qemu"
 		autostart = false
 	}`, randomDomainName, randomDomainName)
 
@@ -960,6 +982,7 @@ func TestAccLibvirtDomain_Filesystems(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		filesystem {
 			source   = "/tmp"
 			target   = "tmp"
@@ -1300,6 +1323,7 @@ func subtestAccLibvirtDomainFirmwareNoTemplate(t *testing.T, nvramPath string, f
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name     = "terraform-test-firmware-no-template"
+		type     = "qemu"
 		firmware = "%s"
 		nvram {
 			file = "%s"
@@ -1333,6 +1357,7 @@ func subtestAccLibvirtDomainFirmwareTemplate(t *testing.T, nvramPath string, fir
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name     = "terraform-test-firmware-with-template"
+		type     = "qemu"
 		firmware = "%s"
 		nvram {
 			file     = "%s"
@@ -1371,6 +1396,7 @@ func TestAccLibvirtDomain_MachineType(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name    = "%s"
+		type    = "qemu"
 		machine = "pc"
 	}`, randomDomainName, randomDomainName)
 	resource.Test(t, resource.TestCase{
@@ -1396,6 +1422,7 @@ func TestAccLibvirtDomain_ArchType(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name  = "%s"
+		type  = "qemu"
 		arch  = "i686"
 	}`, randomDomainName, randomDomainName)
 
@@ -1473,7 +1500,8 @@ func TestAccLibvirtDomain_ShutoffDomain(t *testing.T) {
                     pool = "${libvirt_pool.%s.name}"
 			    }
 			    resource "libvirt_domain" "%s" {
-			    	name = "%s"
+			    	name    = "%s"
+			    	type    = "qemu"
 					running = false
 			    	disk {
 			    		volume_id = "${libvirt_volume.%s.id}"
@@ -1500,11 +1528,13 @@ func TestAccLibvirtDomain_ShutoffMultiDomainsRunning(t *testing.T) {
 				Config: `
    				resource "libvirt_domain" "domainoff" {
 					name = "domainfalse"
+					type = "qemu"
 					vcpu = 1
 					running = false
 				}
 				resource "libvirt_domain" "domainok" {
 					name = "domaintrue"
+					type = "qemu"
 					vcpu = 1
 					running = true
 				}`,
@@ -1522,6 +1552,7 @@ func TestAccLibvirtDomain_CaseInsensitiveAttrs_MAC(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name      = "%s"
+		type      = "qemu"
         network_interface {
             mac = "52:54:00:b2:2f:88"
         }
@@ -1596,6 +1627,7 @@ func TestAccLibvirtDomain_Import(t *testing.T) {
 				Config: fmt.Sprintf(`
 				resource "libvirt_domain" "%s" {
 					name   = "%s"
+					type   = "qemu"
 					memory = 384
 					vcpu   = 2
 				}`, randomDomainName, randomDomainName),
@@ -1632,6 +1664,7 @@ func TestAccLibvirtDomain_XSLT_UnsupportedAttribute(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 	  name = "%s"
+	  type = "qemu"
 	  network_interface {
 	    network_name = "default"
 	  }
@@ -1698,6 +1731,7 @@ func TestAccLibvirtDomain_XSLT_SupportedAttribute(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 	  name = "%s"
+	  type = "qemu"
 	  network_interface  {
 	    network_name = "default"
 	  }
@@ -1758,6 +1792,7 @@ func TestAccLibvirtDomain_XSLT_Whitespace(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 	  name = "%s"
+	  type = "qemu"
 	  network_interface  {
 	    network_name = "default"
 	  }
@@ -1791,6 +1826,7 @@ EOF
 
 	resource "libvirt_domain" "%s" {
 	  name = "%s"
+	  type = "qemu"
 	  network_interface  {
 	    network_name = "default"
 	  }
@@ -1907,6 +1943,7 @@ func TestAccLibvirtDomain_FwCfgName(t *testing.T) {
 
 	resource "libvirt_domain" "%s" {
 		name            = "%s"
+		type            = "qemu"
 		coreos_ignition = "${libvirt_ignition.%s.id}"
 		fw_cfg_name = "%s"
 	}

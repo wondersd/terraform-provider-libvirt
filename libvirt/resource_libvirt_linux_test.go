@@ -49,6 +49,7 @@ func TestAccLibvirtDomainConsoles(t *testing.T) {
 	var config = fmt.Sprintf(`
 	resource "libvirt_domain" "%s" {
 		name = "%s"
+		type = "qemu"
 		console {
 			type        = "pty"
 			target_port = "0"

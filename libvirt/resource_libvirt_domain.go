@@ -57,6 +57,12 @@ func resourceLibvirtDomain() *schema.Resource {
 				Optional: true,
 				ForceNew: false,
 			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default: "kvm",
+				ForceNew: true,
+			},
 			"vcpu": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -484,6 +490,10 @@ func resourceLibvirtDomainCreate(ctx context.Context, d *schema.ResourceData, me
 
 	if name, ok := d.GetOk("name"); ok {
 		domainDef.Name = name.(string)
+	}
+
+	if _type, ok := d.GetOk("type"); ok {
+		domainDef.Type = _type.(string)
 	}
 
 	if cpuMode, ok := d.GetOk("cpu.0.mode"); ok {
